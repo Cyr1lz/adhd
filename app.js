@@ -15,7 +15,6 @@ function showSlide(index) {
   currentSlide = index;
 }
 
-// Check if first time
 if (!localStorage.getItem("hasOnboarded")) {
   onboarding.style.display = "block";
   showSlide(0);
@@ -23,14 +22,12 @@ if (!localStorage.getItem("hasOnboarded")) {
   app.style.display = "block";
 }
 
-// Slide navigation
 nextBtns.forEach((btn, i) => {
   btn.onclick = () => {
     showSlide(i + 1);
   };
 });
 
-// Final button
 if (startBtn) {
   startBtn.onclick = () => {
     localStorage.setItem("hasOnboarded", "true");
@@ -44,6 +41,7 @@ let habits = JSON.parse(localStorage.getItem("habits")) || [];
 let streak = parseInt(localStorage.getItem("streak")) || 0;
 let lastDate = localStorage.getItem("lastDate") || "";
 let history = JSON.parse(localStorage.getItem("history")) || {};
+let badges = JSON.parse(localStorage.getItem("badges")) || [];
 
 const today = new Date().toLocaleDateString();
 const habitList = document.getElementById("habitList");
@@ -106,12 +104,11 @@ addHabitBtn.onclick = () => {
   }
 };
 
-// Add habit with Enter key
 habitInput.addEventListener("keypress", e => {
   if (e.key === "Enter") addHabitBtn.click();
 });
 
-// Check streak progress
+// Check streak progress + achievements
 function checkStreak() {
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
@@ -126,23 +123,30 @@ function checkStreak() {
       streak++;
       lastDate = today;
       
-      // 🎉 Confetti when all habits are done
-      if (typeof confetti === "function") {
-        confetti({
-          particleCount: 80,
-          spread: 70,
-          origin: { y: 0.6 }
-        });
-      }
+      confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+      streakDisplay.classList.add("streak-glow");
+      setTimeout(() => streakDisplay.classList.remove("streak-glow"), 1500);
+
+      checkBadges();
     }
   }
   
-  // Log percentage of habits done today
   if (habits.length > 0) {
     const completed = habits.filter(h => h.done).length;
     history[today] = Math.round((completed / habits.length) * 100);
   } else {
     history[today] = 0;
+  }
+}
+
+// Achievement badges
+const milestones = [3, 5, 7, 14, 30];
+function checkBadges() {
+  if (milestones.includes(streak) && !badges.includes(streak)) {
+    badges.push(streak);
+    localStorage.setItem("badges", JSON.stringify(badges));
+    confetti({ particleCount: 120, spread: 90, origin: { y: 0.6 } });
+    alert(`🏆 Achievement unlocked: ${streak}-Day Streak!`);
   }
 }
 
@@ -152,14 +156,14 @@ function save() {
   localStorage.setItem("streak", streak);
   localStorage.setItem("lastDate", lastDate);
   localStorage.setItem("history", JSON.stringify(history));
+  localStorage.setItem("badges", JSON.stringify(badges));
 }
 
 // ---------------- Chart ----------------
-let chart; // global chart instance
-
+let chart;
 function drawChart() {
   const ctx = document.getElementById("progressChart").getContext("2d");
-  if (chart) chart.destroy(); // clear old chart
+  if (chart) chart.destroy();
   
   let days = [];
   let values = [];
@@ -197,21 +201,3 @@ function drawChart() {
 
 // ---------------- Init ----------------
 render();
-
-// ---------------- PWA ----------------
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("service-worker.js").then(reg => {
-    console.log("Service Worker Registered");
-    
-    // Listen for new SW updates
-    reg.addEventListener("updatefound", () => {
-      const newWorker = reg.installing;
-      newWorker.addEventListener("statechange", () => {
-        if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
-          console.log("New version found, reloading...");
-          window.location.reload();
-        }
-      });
-    });
-  }).catch(err => console.error("SW registration failed:", err));
-}
