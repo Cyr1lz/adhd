@@ -1,0 +1,77 @@
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #f4f4f9;
+  color: #333;
+  text-align: center;
+  padding: 10px;
+}
+
+/* Onboarding */
+#onboarding {
+  background: linear-gradient(to right, #7F00FF, #E100FF);
+  color: white;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.slide {
+  display: none;
+  text-align: center;
+  padding: 20px;
+}
+
+#dots {
+  margin-top: 20px;
+}
+
+.dot {
+  height: 12px;
+  width: 12px;
+  margin: 0 4px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+
+.dot.active {
+  background-color: white;
+}
+
+button {
+  background: #7F00FF;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* Habits */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  padding: 10px;
+  margin: 5px;
+  background: #eee;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+li.done {
+  text-decoration: line-through;
+  background: #c8e6c9;
+}

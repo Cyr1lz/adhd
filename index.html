@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ADHD Helper 🚀</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="./manifest.json" />
+  <meta name="theme-color" content="#4CAF50" />
+
+  <!-- iOS Support -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+  <link rel="apple-touch-startup-image" href="./icons/icon-512.png" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <!-- Onboarding -->
+  <div id="onboarding" style="display:none;">
+    <div class="slide" id="slide1">
+      <h1>🚀 Welcome</h1>
+      <p>This app will help you build better habits, one step at a time.</p>
+      <button class="nextBtn">Next ➡️</button>
+    </div>
+
+    <div class="slide" id="slide2" style="display:none;">
+      <h1>🔥 Stay Consistent</h1>
+      <p>Track your streaks and see your weekly progress.</p>
+      <button class="nextBtn">Next ➡️</button>
+    </div>
+
+    <div class="slide" id="slide3" style="display:none;">
+      <h1>💡 Small Wins Matter</h1>
+      <p>Even 5 minutes today is better than none.</p>
+      <button id="startApp">Get Started ✅</button>
+    </div>
+
+    <!-- Dots -->
+    <div id="dots">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div id="app" style="display:none;">
+    <h1>ADHD Helper 🚀</h1>
+    <p id="streak">🔥 Streak: 0 days</p>
+
+    <h2>Your Habits</h2>
+    <ul id="habitList"></ul>
+
+    <input id="habitInput" type="text" placeholder="New habit..." />
+    <button id="addHabit">+ Add Habit</button>
+
+    <p id="tip"></p>
+
+    <h2>Weekly Progress</h2>
+    <canvas id="progressChart" width="300" height="150"></canvas>
+  </div>
+
+  <!-- External Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Main JS -->
+  <script src="./app.js"></script>
+
+  <!-- Service Worker Registration -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js")
+          .then(reg => console.log("✅ Service Worker registered:", reg.scope))
+          .catch(err => console.error("❌ Service Worker registration failed:", err));
+      });
+    }
+  </script>
+</body>
+</html>
