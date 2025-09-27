@@ -1,22 +1,21 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ADHD Helper 🚀</title>
-
-  <!-- PWA -->
-  <link rel="manifest" href="./manifest.json" />
-  <meta name="theme-color" content="#4CAF50" />
+  
+  <!-- PWA Core -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4CAF50">
 
   <!-- iOS Support -->
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <link rel="apple-touch-icon" href="./icons/icon-192.png" />
-  <link rel="apple-touch-startup-image" href="./icons/icon-512.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
   <!-- Onboarding -->
@@ -49,8 +48,7 @@
 
   <!-- Main App -->
   <div id="app" style="display:none;">
-    <h1>ADHD Helper 🚀</h1>
-    <p id="streak">🔥 Streak: 0 days</p>
+    <h1 id="streak" class="streak-center">🔥 Streak: 0 days</h1>
 
     <h2>Your Habits</h2>
     <ul id="habitList"></ul>
@@ -64,22 +62,9 @@
     <canvas id="progressChart" width="300" height="150"></canvas>
   </div>
 
-  <!-- External Scripts -->
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <!-- Main JS -->
-  <script src="./app.js"></script>
-
-  <!-- Service Worker Registration -->
-  <script>
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./service-worker.js")
-          .then(reg => console.log("✅ Service Worker registered:", reg.scope))
-          .catch(err => console.error("❌ Service Worker registration failed:", err));
-      });
-    }
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>
